@@ -1,0 +1,7 @@
+Node.js Backend Documentation
+Tech Stack
+Node.js, Express.js, MongoDB, Mongoose, Redis, JWT, Docker, GitHub Actions, Swagger.
+Modules
+AuthenticationUsersProductsCategoriesInventoryCartWishlistOrdersPaymentsCouponsDealsTrackingBlogsCMSNotificationsAnalyticsAdmin Dashboard
+Architecture
+Controller -> Service -> Repository -> Database. Use validation, centralized error handling, logging, testing, Docker, CI/CD and monitoring.
