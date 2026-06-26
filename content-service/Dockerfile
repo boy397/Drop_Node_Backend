@@ -1,0 +1,38 @@
+# --- Build Stage ---
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copy root package descriptors to install all dependencies (including devDependencies)
+COPY package*.json ./
+
+# Install all dependencies at the root
+RUN npm install
+
+# Copy source files
+COPY shared ./shared
+COPY content-service ./content-service
+
+# Build the service
+WORKDIR /app/content-service
+RUN npm run build
+
+# --- Runner Stage ---
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Copy root package descriptors to install production dependencies
+COPY package*.json ./
+
+# Install production dependencies at the root
+RUN npm install --only=production
+
+# Copy compiled JavaScript output from the builder stage
+COPY --from=builder /app/content-service/dist ./dist
+
+EXPOSE 5006
+
+CMD ["node", "dist/content-service/src/server.js"]

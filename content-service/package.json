@@ -1,0 +1,31 @@
+{
+  "name": "ecommerce-content-service",
+  "version": "1.0.0",
+  "description": "CMS Pages and Blog post management microservice",
+  "main": "dist/content-service/src/server.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc",
+    "start": "node dist/content-service/src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "helmet": "^7.1.0",
+    "mongoose": "^8.3.1",
+    "redis": "^4.6.13",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.7",
+    "rimraf": "^5.0.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  },
+  "private": true
+}
