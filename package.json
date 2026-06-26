@@ -1,0 +1,71 @@
+{
+  "name": "ecommerce-backend",
+  "version": "1.0.0",
+  "description": "Production-ready E-Commerce Backend using Node.js, Express, TypeScript, MongoDB, and Redis",
+  "_moduleAliases": {
+    "@shared": "dist/shared/src"
+  },
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc",
+    "start": "node dist/server.js",
+    "build:gateway": "npm run build --prefix api-gateway",
+    "build:auth": "npm run build --prefix auth-service",
+    "build:catalog": "npm run build --prefix catalog-service",
+    "build:cart": "npm run build --prefix cart-service",
+    "build:order": "npm run build --prefix order-service",
+    "build:notification": "npm run build --prefix notification-service",
+    "build:content": "npm run build --prefix content-service",
+    "build:all": "npm run build:gateway && npm run build:auth && npm run build:catalog && npm run build:cart && npm run build:order && npm run build:notification && npm run build:content",
+    "clean:all": "rimraf api-gateway/dist auth-service/dist catalog-service/dist cart-service/dist order-service/dist notification-service/dist content-service/dist",
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --runInBand",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "helmet": "^7.1.0",
+    "http-proxy-middleware": "^3.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.3.1",
+    "module-alias": "^2.2.3",
+    "nodemailer": "^6.9.13",
+    "redis": "^4.6.13",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.12.7",
+    "@types/nodemailer": "^6.4.14",
+    "@types/supertest": "^6.0.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@types/uuid": "^9.0.8",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "private": true
+}
