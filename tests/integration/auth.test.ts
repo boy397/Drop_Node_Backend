@@ -1,8 +1,18 @@
 import request from 'supertest';
+import mongoose from 'mongoose';
 
 const GATEWAY_URL = process.env.GATEWAY_URL || 'http://localhost:5000';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ecommerce_auth';
 
 describe('Auth Integration Tests (E2E)', () => {
+  beforeAll(async () => {
+    await mongoose.connect(MONGODB_URI);
+  });
+
+  afterAll(async () => {
+    await mongoose.connection.close();
+  });
+
   // Generate a random email suffix to prevent collision on duplicate test runs
   const randomSuffix = Math.random().toString(36).substring(7);
   const mockUserData = {
@@ -42,6 +52,14 @@ describe('Auth Integration Tests (E2E)', () => {
   });
 
   describe('POST /api/auth/login', () => {
+    beforeAll(async () => {
+      // Manually verify the user in the database so login tests can succeed
+      await mongoose.connection.collection('users').updateOne(
+        { email: mockUserData.email },
+        { $set: { isVerified: true } }
+      );
+    });
+
     it('should authenticate user successfully through the gateway and return tokens', async () => {
       const res = await request(GATEWAY_URL)
         .post('/api/auth/login')
@@ -54,7 +72,9 @@ describe('Auth Integration Tests (E2E)', () => {
 
       expect(res.body).toHaveProperty('status', 'success');
       expect(res.body.data).toHaveProperty('accessToken');
-      expect(res.body.data).toHaveProperty('refreshToken');
+      expect(res.headers['set-cookie']).toEqual(
+        expect.arrayContaining([expect.stringContaining('refreshToken=')])
+      );
       expect(res.body.data.user).toHaveProperty('email', mockUserData.email);
     });
 
